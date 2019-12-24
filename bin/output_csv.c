@@ -60,7 +60,7 @@ void csv_prolog(void) {
 	recordCount = 0;
 	memset(data_string, 0, STRINGSIZE);
 
-	printf("ts,te,td,sa,da,sp,dp,pr,flg,fwd,stos,ipkt,ibyt,opkt,obyt,in,out,sas,das,smk,dmk,dtos,dir,nh,nhb,svln,dvln,ismc,odmc,idmc,osmc,mpls1,mpls2,mpls3,mpls4,mpls5,mpls6,mpls7,mpls8,mpls9,mpls10,cl,sl,al,ra,eng,exid,tr,fl");
+	printf("ts,te,td,sa,da,sp,dp,pr,flg,fwd,stos,ipkt,ibyt,opkt,obyt,in,out,sas,das,smk,dmk,dtos,dir,nh,nhb,svln,dvln,ismc,odmc,idmc,osmc,mpls1,mpls2,mpls3,mpls4,mpls5,mpls6,mpls7,mpls8,mpls9,mpls10,cl,sl,al,ra,eng,exid,tr,fl,bps,pps,bpp");
 
 } // End of csv_prolog
 
@@ -369,6 +369,24 @@ master_record_t *r = (master_record_t *)record;
 
 	// Number of flows
 	snprintf(_s, slen-1, ",%llu", r->aggr_flows);
+		_slen = strlen(data_string);
+		_s = data_string + _slen;
+		slen = STRINGSIZE - _slen;
+
+	// Bits per second
+	snprintf(_s, slen-1, ",%.3f", duration ? r->dOctets * 8 / duration : 0);
+		_slen = strlen(data_string);
+		_s = data_string + _slen;
+		slen = STRINGSIZE - _slen;
+
+	// Packets per second
+	snprintf(_s, slen-1, ",%.3f", duration ? r->dPkts / duration : 0);
+		_slen = strlen(data_string);
+		_s = data_string + _slen;
+		slen = STRINGSIZE - _slen;
+
+	// Bytes per packet
+	snprintf(_s, slen-1, ",%llu", r->dPkts ? r->dOctets / r->dPkts : 0);
 		_slen = strlen(data_string);
 		_s = data_string + _slen;
 		slen = STRINGSIZE - _slen;
