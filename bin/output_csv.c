@@ -60,7 +60,7 @@ void csv_prolog(void) {
 	recordCount = 0;
 	memset(data_string, 0, STRINGSIZE);
 
-	printf("ts,te,td,sa,da,sp,dp,pr,flg,fwd,stos,ipkt,ibyt,opkt,obyt,in,out,sas,das,smk,dmk,dtos,dir,nh,nhb,svln,dvln,ismc,odmc,idmc,osmc,mpls1,mpls2,mpls3,mpls4,mpls5,mpls6,mpls7,mpls8,mpls9,mpls10,cl,sl,al,ra,eng,exid,tr");
+	printf("ts,te,td,sa,da,sp,dp,pr,flg,fwd,stos,ipkt,ibyt,opkt,obyt,in,out,sas,das,smk,dmk,dtos,dir,nh,nhb,svln,dvln,ismc,odmc,idmc,osmc,mpls1,mpls2,mpls3,mpls4,mpls5,mpls6,mpls7,mpls8,mpls9,mpls10,cl,sl,al,ra,eng,exid,tr,fl");
 
 } // End of csv_prolog
 
@@ -366,6 +366,12 @@ master_record_t *r = (master_record_t *)record;
  	        _slen = strlen(data_string);
  	        _s = data_string + _slen;
  	        slen = STRINGSIZE - _slen;
+
+	// Number of flows
+	snprintf(_s, slen-1, ",%llu", r->aggr_flows);
+		_slen = strlen(data_string);
+		_s = data_string + _slen;
+		slen = STRINGSIZE - _slen;
 
 	// snprintf(_s, slen-1, "\n");
 	data_string[STRINGSIZE-1] = 0;
